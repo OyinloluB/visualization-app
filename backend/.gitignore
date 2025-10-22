@@ -1,0 +1,10 @@
+# Virtual env
+venv/
+__pycache__/
+
+# Environment files
+.env
+
+# System junk
+.DS_Store
+*.log
