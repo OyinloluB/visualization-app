@@ -13,9 +13,18 @@ export default function App() {
   const handleQuery = async (query) => {
     try {
       setLoading(true);
-      const res = await axios.post(`${API_BASE}/api/query`, { query });
+      const current_viz = visualizations[visualizations.length - 1] || null;
+      const res = await axios.post(`${API_BASE}/api/query`, {
+        query,
+        current_viz,
+      });
       const spec = res.data;
-      setVisualizations((prev) => [...prev, spec]);
+      setVisualizations((prev) => {
+        if (prev.length && spec.title === prev[prev.length - 1].title) {
+          return [...prev.slice(0, -1), spec];
+        }
+        return [...prev, spec];
+      });
     } catch (err) {
       console.error("API error:", err);
     } finally {
